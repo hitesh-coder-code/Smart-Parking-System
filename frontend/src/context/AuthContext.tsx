@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import api from '../api/client';
 
 export interface AuthUser {
@@ -53,6 +53,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(userData);
     return userData;
   }
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      refreshUser().catch(() => {
+        logout();
+      });
+    }
+  }, []);
 
   return (
     <AuthContext.Provider value={{ user, login, logout, refreshUser }}>
