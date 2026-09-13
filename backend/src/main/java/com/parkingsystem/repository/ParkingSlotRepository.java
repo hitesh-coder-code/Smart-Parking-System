@@ -9,16 +9,16 @@ import java.util.List;
 import java.util.UUID;
 
 public interface ParkingSlotRepository extends JpaRepository<ParkingSlot, UUID> {
-    @EntityGraph(attributePaths = {"zone", "assignedTo", "originalOwner"})
+    @EntityGraph(attributePaths = {"organization", "zone", "assignedTo", "originalOwner"})
     List<ParkingSlot> findByOrganizationId(UUID orgId);
 
-    @EntityGraph(attributePaths = {"zone", "assignedTo", "originalOwner"})
+    @EntityGraph(attributePaths = {"organization", "zone", "assignedTo", "originalOwner"})
     List<ParkingSlot> findByOrganizationIdAndStatus(UUID orgId, ParkingSlot.SlotStatus status);
 
-    @EntityGraph(attributePaths = {"zone", "assignedTo", "originalOwner"})
+    @EntityGraph(attributePaths = {"organization", "zone", "assignedTo", "originalOwner"})
     List<ParkingSlot> findByOrganizationIdAndStatusAndVehicleType(
             UUID orgId, ParkingSlot.SlotStatus status, User.VehicleType vehicleType);
 
-    @EntityGraph(attributePaths = {"zone", "assignedTo", "originalOwner"})
+    @EntityGraph(attributePaths = {"organization", "zone", "assignedTo", "originalOwner"})
     List<ParkingSlot> findByOriginalOwnerId(UUID userId);
 }

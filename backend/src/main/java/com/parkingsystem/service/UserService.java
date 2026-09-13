@@ -9,6 +9,8 @@ import com.parkingsystem.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -20,21 +22,25 @@ public class UserService {
     private final UserRepository userRepository;
 
     /** The current user's own profile — safe to call before joining an organization. */
+    @Transactional(readOnly = true)
     public UserResponse me(User requester) {
         return UserResponse.from(requester);
     }
 
+    @Transactional(readOnly = true)
     public List<UserResponse> listInMyOrg(User requester) {
         OrgGuard.require(requester);
         return userRepository.findByOrganizationId(requester.getOrganization().getId())
                 .stream().map(UserResponse::from).toList();
     }
 
+    @Transactional(readOnly = true)
     public UserResponse getById(User requester, UUID id) {
         User target = findAndCheckSameOrg(requester, id);
         return UserResponse.from(target);
     }
 
+    @Transactional
     public UserResponse update(User requester, UUID id, UserUpdateRequest request) {
         requireAdmin(requester);
         User target = findAndCheckSameOrg(requester, id);
@@ -46,6 +52,7 @@ public class UserService {
         return UserResponse.from(userRepository.save(target));
     }
 
+    @Transactional
     public void delete(User requester, UUID id) {
         requireAdmin(requester);
         User target = findAndCheckSameOrg(requester, id);

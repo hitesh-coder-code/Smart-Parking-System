@@ -18,20 +18,37 @@ export default function Admin() {
 
   async function refresh() {
     try {
-      const [zonesRes, slotsRes, usersRes] = await Promise.all([
+      const [zonesRes, slotsRes, usersRes] = await Promise.allSettled([
         api.get<Zone[]>('/api/zones'),
         api.get<Slot[]>('/api/slots'),
         api.get<OrgUser[]>('/api/users'),
       ]);
-      setZones(zonesRes.data);
-      setSlots(slotsRes.data);
-      setUsers(usersRes.data);
-      setSlotZoneId((current) => {
-        if (current && zonesRes.data.some((z) => z.id === current)) {
-          return current;
-        }
-        return zonesRes.data.length > 0 ? zonesRes.data[0].id : '';
-      });
+
+      if (zonesRes.status === 'fulfilled') {
+        const loadedZones = [...zonesRes.value.data].sort((a, b) => a.name.localeCompare(b.name));
+        setZones(loadedZones);
+        setSlotZoneId((current) => {
+          if (current && loadedZones.some((z) => z.id === current)) {
+            return current;
+          }
+          return loadedZones.length > 0 ? loadedZones[0].id : '';
+        });
+      }
+
+      if (slotsRes.status === 'fulfilled') {
+        setSlots(slotsRes.value.data);
+      }
+
+      if (usersRes.status === 'fulfilled') {
+        setUsers(usersRes.value.data);
+      }
+
+      const failure = [zonesRes, slotsRes, usersRes].find(
+        (r): r is PromiseRejectedResult => r.status === 'rejected'
+      );
+      if (failure) {
+        setMessage(failure.reason?.response?.data?.error || 'Could not load some data.');
+      }
     } catch (err: any) {
       setMessage(err?.response?.data?.error || 'Could not load data.');
     }
@@ -51,7 +68,11 @@ export default function Admin() {
       const newZone = res.data;
       setZoneName('');
       setMessage(`Zone "${newZone.name}" created successfully.`);
-      setZones((prev) => [...prev.filter((z) => z.id !== newZone.id), newZone]);
+      setZones((prev) => {
+        const exists = prev.some((z) => z.id === newZone.id);
+        const next = exists ? prev : [...prev, newZone];
+        return next.sort((a, b) => a.name.localeCompare(b.name));
+      });
       setSlotZoneId(newZone.id);
       await refresh();
     } catch (err: any) {
