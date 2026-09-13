@@ -1,0 +1,48 @@
+spring:
+  application:
+    name: parking-system
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/parking}
+    username: ${SPRING_DATASOURCE_USERNAME:parking_user}
+    password: ${SPRING_DATASOURCE_PASSWORD:devpassword}
+  jpa:
+    hibernate:
+      # schema is fully managed by Flyway migrations, never by Hibernate
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+    open-in-view: false
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+  mail:
+    host: ${SPRING_MAIL_HOST:localhost}
+    port: ${SPRING_MAIL_PORT:587}
+    username: ${SPRING_MAIL_USERNAME:}
+    password: ${SPRING_MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+server:
+  port: ${PORT:8080}
+
+app:
+  jwt:
+    secret: ${JWT_SECRET:this-is-a-dev-only-secret-key-change-it-before-deploying-anywhere-real}
+    expiration-ms: ${JWT_EXPIRATION_MS:86400000}
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:5173}
+  email:
+    # LOG (default): verification codes are printed to the console — no credentials needed.
+    # SMTP: real emails are sent via spring.mail.* below — set these env vars in production.
+    mode: ${EMAIL_MODE:LOG}
+    from: ${EMAIL_FROM:no-reply@parking-system.local}
+
+logging:
+  level:
+    com.parkingsystem: INFO

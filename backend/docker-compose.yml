@@ -1,0 +1,38 @@
+services:
+  db:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: parking
+      POSTGRES_USER: parking_user
+      POSTGRES_PASSWORD: devpassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U parking_user -d parking"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/parking
+      SPRING_DATASOURCE_USERNAME: parking_user
+      SPRING_DATASOURCE_PASSWORD: devpassword
+      JWT_SECRET: this-is-a-dev-only-secret-key-change-it-before-deploying-anywhere-real
+      CORS_ALLOWED_ORIGINS: http://localhost:5173
+      # Default EMAIL_MODE is LOG — verification codes print to `docker compose logs backend`.
+      # Set EMAIL_MODE=SMTP plus SPRING_MAIL_* below to send real emails instead.
+      EMAIL_MODE: LOG
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  pgdata:

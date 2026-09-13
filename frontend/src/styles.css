@@ -1,0 +1,136 @@
+:root {
+  --bg: #f5f6f8;
+  --card: #ffffff;
+  --border: #dde1e6;
+  --text: #1c1e21;
+  --muted: #6b7280;
+  --primary: #2f6fed;
+  --available: #1a8f4c;
+  --reserved: #6b7280;
+  --claimed: #b45309;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+}
+.navbar a { color: var(--text); text-decoration: none; }
+.navbar a:hover { color: var(--primary); }
+.brand { font-weight: 700; }
+.spacer { flex: 1; }
+.user-chip { color: var(--muted); font-size: 0.9rem; }
+
+.page {
+  max-width: 960px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+}
+
+.auth-page {
+  display: flex;
+  justify-content: center;
+  padding-top: 4rem;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  max-width: 420px;
+}
+
+form.card label { display: block; margin-top: 0.75rem; font-size: 0.85rem; color: var(--muted); }
+form.card input, form.card select {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.25rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+form.card button {
+  margin-top: 1.25rem;
+  width: 100%;
+}
+
+button {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 0.5rem 0.9rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+button:hover { opacity: 0.9; }
+button:disabled { background: var(--border); cursor: not-allowed; }
+
+.muted { color: var(--muted); }
+.small { font-size: 0.8rem; }
+.error { color: #c0392b; }
+.hint { color: var(--primary); font-size: 0.9rem; }
+
+.slot-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+.slot-card {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  background: var(--card);
+}
+.slot-card.status-available { border-left: 4px solid var(--available); }
+.slot-card.status-reserved { border-left: 4px solid var(--reserved); }
+.slot-card.status-claimed { border-left: 4px solid var(--claimed); }
+
+.badge {
+  display: inline-block;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  background: var(--bg);
+  font-size: 0.75rem;
+  width: fit-content;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  background: var(--card);
+}
+.table th, .table td {
+  border: 1px solid var(--border);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  font-size: 0.9rem;
+}
+.table th { background: var(--bg); }
+
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+@media (max-width: 700px) {
+  .two-col { grid-template-columns: 1fr; }
+}
