@@ -10,6 +10,8 @@ import com.parkingsystem.repository.ZoneRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 @Service
@@ -18,12 +20,14 @@ public class ZoneService {
 
     private final ZoneRepository zoneRepository;
 
+    @Transactional(readOnly = true)
     public List<ZoneResponse> listInMyOrg(User requester) {
         Organization org = OrgGuard.require(requester);
-        return zoneRepository.findByOrganizationId(org.getId())
+        return zoneRepository.findByOrganizationIdOrderByNameAsc(org.getId())
                 .stream().map(ZoneResponse::from).toList();
     }
 
+    @Transactional
     public ZoneResponse create(User requester, ZoneRequest request) {
         Organization org = OrgGuard.require(requester);
         requireAdmin(requester);

@@ -8,4 +8,5 @@ import java.util.UUID;
 
 public interface ZoneRepository extends JpaRepository<Zone, UUID> {
     List<Zone> findByOrganizationId(UUID orgId);
+    List<Zone> findByOrganizationIdOrderByNameAsc(UUID orgId);
 }

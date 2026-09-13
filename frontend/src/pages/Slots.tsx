@@ -9,12 +9,16 @@ export default function Slots() {
   const [message, setMessage] = useState('');
 
   async function refresh() {
-    const [slotsRes, zonesRes] = await Promise.all([
-      api.get<Slot[]>('/api/slots'),
-      api.get<Zone[]>('/api/zones'),
-    ]);
-    setSlots(slotsRes.data);
-    setZones(zonesRes.data);
+    try {
+      const [slotsRes, zonesRes] = await Promise.all([
+        api.get<Slot[]>('/api/slots'),
+        api.get<Zone[]>('/api/zones'),
+      ]);
+      setSlots(slotsRes.data);
+      setZones(zonesRes.data);
+    } catch (err: any) {
+      setMessage(err?.response?.data?.error || 'Could not load slots or zones.');
+    }
   }
 
   useEffect(() => { refresh(); }, []);

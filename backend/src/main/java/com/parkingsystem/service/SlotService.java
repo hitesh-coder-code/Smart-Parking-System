@@ -27,6 +27,7 @@ public class SlotService {
     private final UserRepository userRepository;
     private final SlotEventRepository slotEventRepository;
 
+    @Transactional(readOnly = true)
     public List<SlotResponse> listInMyOrg(User requester) {
         Organization org = OrgGuard.require(requester);
         return slotRepository.findByOrganizationId(org.getId())
@@ -34,12 +35,14 @@ public class SlotService {
     }
 
     /** Slots currently free to interact with (released by an event, or never claimed at all). */
+    @Transactional(readOnly = true)
     public List<SlotResponse> listAvailableInMyOrg(User requester) {
         Organization org = OrgGuard.require(requester);
         return slotRepository.findByOrganizationIdAndStatus(org.getId(), ParkingSlot.SlotStatus.AVAILABLE)
                 .stream().map(SlotResponse::from).toList();
     }
 
+    @Transactional
     public SlotResponse create(User requester, SlotRequest request) {
         Organization org = OrgGuard.require(requester);
         requireAdmin(requester);
@@ -72,6 +75,7 @@ public class SlotService {
         return SlotResponse.from(slotRepository.save(slot));
     }
 
+    @Transactional
     public void delete(User requester, UUID id) {
         requireAdmin(requester);
         ParkingSlot slot = findAndCheckSameOrg(requester, id);
