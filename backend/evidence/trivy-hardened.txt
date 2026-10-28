@@ -1,0 +1,32 @@
+================================================================================
+Trivy Hardened Security Scan Evidence (DA3 Q2.C)
+================================================================================
+Timestamp: 2026-10-28T00:07:58+05:30 (UTC: 2026-10-27T18:37:58Z)
+Image: smart-parking-backend:hardened
+Command: docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v trivy-cache:/root/.cache/ aquasec/trivy:latest image --skip-db-update --scanners vuln --pkg-types os --severity HIGH,CRITICAL smart-parking-backend:hardened
+
+Scan Results:
+Detected OS: family="alpine" version="3.24.3"
+Packages Scanned: 73
+
+Report Summary:
+┌────────────────────────────────────────────────┬────────┬─────────────────┐
+│                     Target                     │  Type  │ Vulnerabilities │
+├────────────────────────────────────────────────┼────────┼─────────────────┤
+│ smart-parking-backend:hardened (alpine 3.24.3) │ alpine │        0        │
+└────────────────────────────────────────────────┴────────┴─────────────────┘
+Legend:
+- '-': Not scanned
+- '0': Clean (no security findings detected)
+
+smart-parking-backend:hardened (alpine 3.24.3)
+==============================================
+Total: 0 (HIGH: 0, CRITICAL: 0)
+
+Runtime User Status:
+- Hardened Dockerfile: appuser (UID 10001, GID 10001)
+- Verification Command: docker run --rm --entrypoint sh smart-parking-backend:hardened -c "whoami && id"
+- Verification Output:
+  appuser
+  uid=10001(appuser) gid=10001(appgroup) groups=10001(appgroup)
+================================================================================

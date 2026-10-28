@@ -1,0 +1,33 @@
+================================================================================
+Trivy Baseline Security Scan Evidence (DA3 Q2.C)
+================================================================================
+Timestamp: 2026-10-27T01:36:22+05:30 (UTC: 2026-10-26T20:06:22Z)
+Image: smart-parking-backend:test
+Command: docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v trivy-cache:/root/.cache/ aquasec/trivy:latest image --scanners vuln --pkg-types os --severity HIGH,CRITICAL smart-parking-backend:test
+
+Scan Results:
+Detected OS: family="alpine" version="3.24.3"
+Packages Scanned: 73
+
+Report Summary:
+┌────────────────────────────────────────────┬────────┬─────────────────┐
+│                   Target                   │  Type  │ Vulnerabilities │
+├────────────────────────────────────────────┼────────┼─────────────────┤
+│ smart-parking-backend:test (alpine 3.24.3) │ alpine │        1        │
+└────────────────────────────────────────────┴────────┴─────────────────┘
+
+smart-parking-backend:test (alpine 3.24.3)
+==========================================
+Total: 1 (HIGH: 1, CRITICAL: 0)
+
+┌─────────────┬─────────────────┬──────────┬────────┬───────────────────┬───────────────┬──────────────────────────────────────────────────────┐
+│   Library   │  Vulnerability  │ Severity │ Status │ Installed Version │ Fixed Version │                        Title                         │
+├─────────────┼─────────────────┼──────────┼────────┼───────────────────┼───────────────┼──────────────────────────────────────────────────────┤
+│ brotli-libs │ CVE-2026-111497 │ HIGH     │ fixed  │ 1.2.0-r1          │ 1.2.1-r0      │ brotli: Out-of-Bounds Write in Google Brotli Decoder │
+│             │                 │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2026-111497          │
+└─────────────┴─────────────────┴──────────┴────────┴───────────────────┴───────────────┴──────────────────────────────────────────────────────┘
+
+Runtime User Status:
+- Current Dockerfile: root (UID 0)
+- Hardening Target: Create non-root system user (appuser:10001) and run `apk upgrade --no-cache` to eliminate CVE-2026-111497.
+================================================================================
