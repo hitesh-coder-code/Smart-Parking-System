@@ -1,0 +1,23 @@
+================================================================================
+Stage 3 Load Distribution Evidence (DA3 Q1.A)
+================================================================================
+Timestamp: 2026-10-27T19:25:20+05:30
+Endpoint Tested: GET http://localhost:8088/api/orgs/public
+Load Balancer: Nginx (port 8088)
+
+Container IP Mapping:
+- /da3-backend-1-1 -> 172.19.0.3:8080
+- /da3-backend-2-1 -> 172.19.0.4:8080
+- /da3-backend-3-1 -> 172.19.0.5:8080
+
+Sequential Request Verification (X-Served-By Header):
+Request 1: HTTP/1.1 200 OK | X-Served-By: 172.19.0.4:8080, 172.19.0.5:8080 (backend-2, failover recovery to backend-3)
+Request 2: HTTP/1.1 200 OK | X-Served-By: 172.19.0.3:8080 (backend-1)
+Request 3: HTTP/1.1 200 OK | X-Served-By: 172.19.0.5:8080 (backend-3)
+Request 4: HTTP/1.1 200 OK | X-Served-By: 172.19.0.4:8080 (backend-2)
+Request 5: HTTP/1.1 200 OK | X-Served-By: 172.19.0.3:8080 (backend-1)
+Request 6: HTTP/1.1 200 OK | X-Served-By: 172.19.0.5:8080 (backend-3)
+
+Conclusion:
+Round-robin load distribution is demonstrated across all three backend instances with zero port conflicts and zero errors.
+================================================================================

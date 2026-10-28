@@ -1,0 +1,91 @@
+﻿
+         /\      Grafana   /â€¾â€¾/  
+    /\  /  \     |\  __   /  /   
+   /  \/    \    | |/ /  /   â€¾â€¾\ 
+  /          \   |   (  |  (â€¾)  |
+ / __________ \  |_|\_\  \_____/ 
+
+
+     execution: local
+        script: /scripts/failure-test.js
+        output: -
+
+     scenarios: (100.00%) 1 scenario, 10 max VUs, 2m30s max duration (incl. graceful stop):
+              * failure_experiment: 800 iterations shared among 10 VUs (maxDuration: 2m0s, gracefulStop: 30s)
+
+
+running (0m00.1s), 10/10 VUs, 0 complete and 0 interrupted iterations
+failure_experiment   [   0% ] 10 VUs  0m00.2s/2m0s  000/800 shared iters
+
+running (0m01.1s), 10/10 VUs, 0 complete and 0 interrupted iterations
+failure_experiment   [   0% ] 10 VUs  0m01.1s/2m0s  000/800 shared iters
+
+running (0m02.1s), 10/10 VUs, 0 complete and 0 interrupted iterations
+failure_experiment   [   0% ] 10 VUs  0m02.1s/2m0s  000/800 shared iters
+
+running (0m03.1s), 10/10 VUs, 0 complete and 0 interrupted iterations
+failure_experiment   [   0% ] 10 VUs  0m03.1s/2m0s  000/800 shared iters
+
+running (0m04.1s), 10/10 VUs, 0 complete and 0 interrupted iterations
+failure_experiment   [   0% ] 10 VUs  0m04.1s/2m0s  000/800 shared iters
+
+running (0m05.1s), 10/10 VUs, 27 complete and 0 interrupted iterations
+failure_experiment   [   3% ] 10 VUs  0m05.1s/2m0s  027/800 shared iters
+
+running (0m06.1s), 10/10 VUs, 136 complete and 0 interrupted iterations
+failure_experiment   [  17% ] 10 VUs  0m06.1s/2m0s  136/800 shared iters
+
+running (0m07.1s), 10/10 VUs, 266 complete and 0 interrupted iterations
+failure_experiment   [  33% ] 10 VUs  0m07.1s/2m0s  266/800 shared iters
+
+running (0m08.1s), 10/10 VUs, 392 complete and 0 interrupted iterations
+failure_experiment   [  49% ] 10 VUs  0m08.1s/2m0s  392/800 shared iters
+
+running (0m09.1s), 10/10 VUs, 503 complete and 0 interrupted iterations
+failure_experiment   [  63% ] 10 VUs  0m09.1s/2m0s  503/800 shared iters
+
+running (0m10.2s), 10/10 VUs, 547 complete and 0 interrupted iterations
+failure_experiment   [  68% ] 10 VUs  0m10.2s/2m0s  547/800 shared iters
+
+running (0m11.1s), 10/10 VUs, 572 complete and 0 interrupted iterations
+failure_experiment   [  72% ] 10 VUs  0m11.1s/2m0s  572/800 shared iters
+
+running (0m12.1s), 10/10 VUs, 662 complete and 0 interrupted iterations
+failure_experiment   [  83% ] 10 VUs  0m12.1s/2m0s  662/800 shared iters
+
+running (0m13.0s), 00/10 VUs, 800 complete and 0 interrupted iterations
+failure_experiment âœ“ [ 100% ] 10 VUs  0m13.0s/2m0s  800/800 shared iters
+
+
+  â–ˆ TOTAL RESULTS 
+
+    checks_total.......: 800     61.72774/s
+    checks_succeeded...: 100.00% 800 out of 800
+    checks_failed......: 0.00%   0 out of 800
+
+    âœ“ status is 200
+
+    CUSTOM
+    status_200.....................: 800    61.72774/s
+
+    HTTP
+    http_req_duration..............: avg=157.55ms min=6.89ms med=74.49ms max=4.66s p(90)=197.25ms p(95)=285.82ms
+      { expected_response:true }...: avg=157.55ms min=6.89ms med=74.49ms max=4.66s p(90)=197.25ms p(95)=285.82ms
+    http_req_failed................: 0.00%  0 out of 800
+    http_reqs......................: 800    61.72774/s
+
+    EXECUTION
+    iteration_duration.............: avg=161.19ms min=7.2ms  med=75.73ms max=4.85s p(90)=197.6ms  p(95)=288.22ms
+    iterations.....................: 800    61.72774/s
+    vus............................: 10     min=10       max=10
+    vus_max........................: 10     min=10       max=10
+
+    NETWORK
+    data_received..................: 369 kB 29 kB/s
+    data_sent......................: 61 kB  4.7 kB/s
+
+
+
+
+running (0m13.0s), 00/10 VUs, 800 complete and 0 interrupted iterations
+failure_experiment âœ“ [ 100% ] 10 VUs  0m13.0s/2m0s  800/800 shared iters

@@ -1,0 +1,94 @@
+
+         /\      Grafana   /‾‾/  
+    /\  /  \     |\  __   /  /   
+   /  \/    \    | |/ /  /   ‾‾\ 
+  /          \   |   (  |  (‾)  |
+ / __________ \  |_|\_\  \_____/ 
+
+
+     execution: local
+        script: /scripts/load-test.js
+        output: -
+
+     scenarios: (100.00%) 1 scenario, 10 max VUs, 3m30s max duration (incl. graceful stop):
+              * fixed_1000_requests: 1000 iterations shared among 10 VUs (maxDuration: 3m0s, gracefulStop: 30s)
+
+
+running (0m00.8s), 10/10 VUs, 0 complete and 0 interrupted iterations
+fixed_1000_requests   [   0% ] 10 VUs  0m00.8s/3m0s  0000/1000 shared iters
+
+running (0m01.8s), 10/10 VUs, 0 complete and 0 interrupted iterations
+fixed_1000_requests   [   0% ] 10 VUs  0m01.8s/3m0s  0000/1000 shared iters
+
+running (0m02.8s), 10/10 VUs, 0 complete and 0 interrupted iterations
+fixed_1000_requests   [   0% ] 10 VUs  0m02.8s/3m0s  0000/1000 shared iters
+
+running (0m03.8s), 10/10 VUs, 0 complete and 0 interrupted iterations
+fixed_1000_requests   [   0% ] 10 VUs  0m03.8s/3m0s  0000/1000 shared iters
+
+running (0m04.8s), 10/10 VUs, 39 complete and 0 interrupted iterations
+fixed_1000_requests   [   4% ] 10 VUs  0m04.8s/3m0s  0039/1000 shared iters
+
+running (0m05.8s), 10/10 VUs, 160 complete and 0 interrupted iterations
+fixed_1000_requests   [  16% ] 10 VUs  0m05.8s/3m0s  0160/1000 shared iters
+
+running (0m06.8s), 10/10 VUs, 262 complete and 0 interrupted iterations
+fixed_1000_requests   [  26% ] 10 VUs  0m06.8s/3m0s  0262/1000 shared iters
+
+running (0m07.8s), 10/10 VUs, 390 complete and 0 interrupted iterations
+fixed_1000_requests   [  39% ] 10 VUs  0m07.8s/3m0s  0390/1000 shared iters
+
+running (0m08.8s), 10/10 VUs, 437 complete and 0 interrupted iterations
+fixed_1000_requests   [  44% ] 10 VUs  0m08.8s/3m0s  0437/1000 shared iters
+
+running (0m09.8s), 10/10 VUs, 546 complete and 0 interrupted iterations
+fixed_1000_requests   [  55% ] 10 VUs  0m09.8s/3m0s  0546/1000 shared iters
+
+running (0m10.9s), 10/10 VUs, 701 complete and 0 interrupted iterations
+fixed_1000_requests   [  70% ] 10 VUs  0m10.9s/3m0s  0701/1000 shared iters
+
+running (0m11.8s), 10/10 VUs, 793 complete and 0 interrupted iterations
+fixed_1000_requests   [  79% ] 10 VUs  0m11.8s/3m0s  0793/1000 shared iters
+
+running (0m12.8s), 10/10 VUs, 853 complete and 0 interrupted iterations
+fixed_1000_requests   [  85% ] 10 VUs  0m12.8s/3m0s  0853/1000 shared iters
+
+running (0m13.8s), 10/10 VUs, 948 complete and 0 interrupted iterations
+fixed_1000_requests   [  95% ] 10 VUs  0m13.8s/3m0s  0948/1000 shared iters
+
+
+  █ THRESHOLDS 
+
+    http_req_failed
+    ✓ 'rate==0' rate=0.00%
+
+
+  █ TOTAL RESULTS 
+
+    checks_total.......: 1000    71.119885/s
+    checks_succeeded...: 100.00% 1000 out of 1000
+    checks_failed......: 0.00%   0 out of 1000
+
+    ✓ status is 200
+
+    HTTP
+    http_req_duration..............: avg=136.79ms min=7.06ms med=65.82ms max=4.53s p(90)=184.78ms p(95)=280.04ms
+      { expected_response:true }...: avg=136.79ms min=7.06ms med=65.82ms max=4.53s p(90)=184.78ms p(95)=280.04ms
+    http_req_failed................: 0.00%  0 out of 1000
+    http_reqs......................: 1000   71.119885/s
+
+    EXECUTION
+    iteration_duration.............: avg=139.84ms min=7.86ms med=66.3ms  max=4.68s p(90)=185.82ms p(95)=284.33ms
+    iterations.....................: 1000   71.119885/s
+    vus............................: 10     min=10        max=10
+    vus_max........................: 10     min=10        max=10
+
+    NETWORK
+    data_received..................: 461 kB 33 kB/s
+    data_sent......................: 76 kB  5.4 kB/s
+
+
+
+
+running (0m14.1s), 00/10 VUs, 1000 complete and 0 interrupted iterations
+fixed_1000_requests ✓ [ 100% ] 10 VUs  0m14.1s/3m0s  1000/1000 shared iters

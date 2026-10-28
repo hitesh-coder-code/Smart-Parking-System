@@ -1,0 +1,100 @@
+
+         /\      Grafana   /‾‾/  
+    /\  /  \     |\  __   /  /   
+   /  \/    \    | |/ /  /   ‾‾\ 
+  /          \   |   (  |  (‾)  |
+ / __________ \  |_|\_\  \_____/ 
+
+
+     execution: local
+        script: /scripts/load-test.js
+        output: -
+
+     scenarios: (100.00%) 1 scenario, 10 max VUs, 3m30s max duration (incl. graceful stop):
+              * fixed_1000_requests: 1000 iterations shared among 10 VUs (maxDuration: 3m0s, gracefulStop: 30s)
+
+
+running (0m01.0s), 10/10 VUs, 0 complete and 0 interrupted iterations
+fixed_1000_requests   [   0% ] 10 VUs  0m01.0s/3m0s  0000/1000 shared iters
+
+running (0m02.0s), 10/10 VUs, 0 complete and 0 interrupted iterations
+fixed_1000_requests   [   0% ] 10 VUs  0m02.0s/3m0s  0000/1000 shared iters
+
+running (0m03.0s), 10/10 VUs, 19 complete and 0 interrupted iterations
+fixed_1000_requests   [   2% ] 10 VUs  0m03.0s/3m0s  0019/1000 shared iters
+
+running (0m04.0s), 10/10 VUs, 46 complete and 0 interrupted iterations
+fixed_1000_requests   [   5% ] 10 VUs  0m04.0s/3m0s  0046/1000 shared iters
+
+running (0m05.0s), 10/10 VUs, 76 complete and 0 interrupted iterations
+fixed_1000_requests   [   8% ] 10 VUs  0m05.0s/3m0s  0076/1000 shared iters
+
+running (0m06.0s), 10/10 VUs, 100 complete and 0 interrupted iterations
+fixed_1000_requests   [  10% ] 10 VUs  0m06.0s/3m0s  0100/1000 shared iters
+
+running (0m07.0s), 10/10 VUs, 130 complete and 0 interrupted iterations
+fixed_1000_requests   [  13% ] 10 VUs  0m07.0s/3m0s  0130/1000 shared iters
+
+running (0m08.0s), 10/10 VUs, 175 complete and 0 interrupted iterations
+fixed_1000_requests   [  18% ] 10 VUs  0m08.0s/3m0s  0175/1000 shared iters
+
+running (0m09.0s), 10/10 VUs, 246 complete and 0 interrupted iterations
+fixed_1000_requests   [  25% ] 10 VUs  0m09.0s/3m0s  0246/1000 shared iters
+
+running (0m10.0s), 10/10 VUs, 305 complete and 0 interrupted iterations
+fixed_1000_requests   [  30% ] 10 VUs  0m10.0s/3m0s  0305/1000 shared iters
+
+running (0m11.0s), 10/10 VUs, 391 complete and 0 interrupted iterations
+fixed_1000_requests   [  39% ] 10 VUs  0m11.0s/3m0s  0391/1000 shared iters
+
+running (0m12.0s), 10/10 VUs, 457 complete and 0 interrupted iterations
+fixed_1000_requests   [  46% ] 10 VUs  0m12.0s/3m0s  0457/1000 shared iters
+
+running (0m13.0s), 10/10 VUs, 528 complete and 0 interrupted iterations
+fixed_1000_requests   [  53% ] 10 VUs  0m13.0s/3m0s  0528/1000 shared iters
+
+running (0m14.0s), 10/10 VUs, 640 complete and 0 interrupted iterations
+fixed_1000_requests   [  64% ] 10 VUs  0m14.0s/3m0s  0640/1000 shared iters
+
+running (0m15.0s), 10/10 VUs, 793 complete and 0 interrupted iterations
+fixed_1000_requests   [  79% ] 10 VUs  0m15.0s/3m0s  0793/1000 shared iters
+
+running (0m16.0s), 10/10 VUs, 951 complete and 0 interrupted iterations
+fixed_1000_requests   [  95% ] 10 VUs  0m16.0s/3m0s  0951/1000 shared iters
+
+
+  █ THRESHOLDS 
+
+    http_req_failed
+    ✓ 'rate==0' rate=0.00%
+
+
+  █ TOTAL RESULTS 
+
+    checks_total.......: 1000    61.393374/s
+    checks_succeeded...: 100.00% 1000 out of 1000
+    checks_failed......: 0.00%   0 out of 1000
+
+    ✓ status is 200
+
+    HTTP
+    http_req_duration..............: avg=161.09ms min=8.73ms med=86.5ms  max=2.46s p(90)=335.87ms p(95)=506.41ms
+      { expected_response:true }...: avg=161.09ms min=8.73ms med=86.5ms  max=2.46s p(90)=335.87ms p(95)=506.41ms
+    http_req_failed................: 0.00%  0 out of 1000
+    http_reqs......................: 1000   61.393374/s
+
+    EXECUTION
+    iteration_duration.............: avg=162.42ms min=8.99ms med=87.25ms max=2.48s p(90)=338.79ms p(95)=513.22ms
+    iterations.....................: 1000   61.393374/s
+    vus............................: 10     min=10        max=10
+    vus_max........................: 10     min=10        max=10
+
+    NETWORK
+    data_received..................: 461 kB 28 kB/s
+    data_sent......................: 76 kB  4.7 kB/s
+
+
+
+
+running (0m16.3s), 00/10 VUs, 1000 complete and 0 interrupted iterations
+fixed_1000_requests ✓ [ 100% ] 10 VUs  0m16.3s/3m0s  1000/1000 shared iters
