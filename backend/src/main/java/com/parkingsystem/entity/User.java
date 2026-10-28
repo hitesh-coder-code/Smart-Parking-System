@@ -45,6 +45,12 @@ public class User {
     @Column(name = "is_verified", nullable = false)
     private boolean verified;
 
+    @Column(name = "mfa_enabled", nullable = false)
+    private boolean mfaEnabled;
+
+    @Column(name = "totp_secret", length = 64)
+    private String totpSecret;
+
     @Column(name = "verification_code")
     private String verificationCode;
 

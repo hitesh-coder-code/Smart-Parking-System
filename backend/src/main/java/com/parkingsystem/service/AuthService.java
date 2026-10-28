@@ -31,6 +31,7 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
     private final EmailService emailService;
+    private final com.parkingsystem.security.TotpUtil totpUtil;
 
     @Transactional
     public MessageResponse signup(SignupRequest request) {
@@ -104,6 +105,110 @@ public class AuthService {
             throw new ForbiddenException("Please verify your email before logging in");
         }
 
+        if (user.isMfaEnabled()) {
+            // If the client submitted the TOTP code in the primary login payload:
+            if (request.getTotpCode() != null && !request.getTotpCode().isBlank()) {
+                if (!totpUtil.verifyCode(user.getTotpSecret(), request.getTotpCode())) {
+                    throw new BadRequestException("Invalid MFA TOTP code");
+                }
+                return buildFullAuthResponse(user);
+            }
+            // Two-step flow: issue short-lived pre-auth token that only permits MFA verification
+            String tempToken = jwtUtil.generatePreAuthToken(user.getEmail());
+            return AuthResponse.builder()
+                    .mfaRequired(true)
+                    .tempToken(tempToken)
+                    .userId(user.getId())
+                    .email(user.getEmail())
+                    .build();
+        }
+
+        return buildFullAuthResponse(user);
+    }
+
+    public AuthResponse verifyLoginMfa(MfaLoginVerifyRequest request) {
+        if (!jwtUtil.isPreAuthToken(request.getTempToken())) {
+            throw new BadRequestException("Invalid or expired MFA session token");
+        }
+        String email = jwtUtil.extractEmail(request.getTempToken());
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        if (!user.isMfaEnabled() || user.getTotpSecret() == null) {
+            throw new BadRequestException("MFA is not enabled on this account");
+        }
+
+        if (!totpUtil.verifyCode(user.getTotpSecret(), request.getTotpCode())) {
+            throw new BadRequestException("Invalid MFA TOTP code");
+        }
+
+        return buildFullAuthResponse(user);
+    }
+
+    @Transactional
+    public MfaSetupResponse setupMfa(User requester) {
+        User user = userRepository.findById(requester.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        if (user.isMfaEnabled()) {
+            throw new BadRequestException("MFA is already enabled on this account. To reconfigure, disable it first.");
+        }
+
+        String secret = totpUtil.generateSecret();
+        String qrUri = totpUtil.getQrUri(secret, user.getEmail(), "SmartParking");
+
+        user.setTotpSecret(secret);
+        // Note: mfaEnabled remains false until user proves possession by verifying a code
+        userRepository.save(user);
+
+        return MfaSetupResponse.builder()
+                .secret(secret)
+                .qrUri(qrUri)
+                .message("Scan QR code or enter secret into Google or Microsoft Authenticator, then call /api/auth/mfa/enable with the 6-digit code.")
+                .build();
+    }
+
+    @Transactional
+    public MessageResponse enableMfa(User requester, MfaVerifyRequest request) {
+        User user = userRepository.findById(requester.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        if (user.isMfaEnabled()) {
+            throw new BadRequestException("MFA is already active on this account");
+        }
+        if (user.getTotpSecret() == null) {
+            throw new BadRequestException("MFA setup has not been initiated. Call /setup first.");
+        }
+        if (!totpUtil.verifyCode(user.getTotpSecret(), request.getTotpCode())) {
+            throw new BadRequestException("Invalid verification code. Ensure your device clock is synchronized.");
+        }
+
+        user.setMfaEnabled(true);
+        userRepository.save(user);
+
+        return new MessageResponse("MFA successfully enabled. TOTP will now be required at login.");
+    }
+
+    @Transactional
+    public MessageResponse disableMfa(User requester, MfaVerifyRequest request) {
+        User user = userRepository.findById(requester.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        if (!user.isMfaEnabled()) {
+            throw new BadRequestException("MFA is not enabled on this account");
+        }
+        if (!totpUtil.verifyCode(user.getTotpSecret(), request.getTotpCode())) {
+            throw new BadRequestException("Invalid verification code");
+        }
+
+        user.setMfaEnabled(false);
+        user.setTotpSecret(null);
+        userRepository.save(user);
+
+        return new MessageResponse("MFA has been disabled.");
+    }
+
+    private AuthResponse buildFullAuthResponse(User user) {
         String token = jwtUtil.generateToken(user.getEmail());
         return new AuthResponse(
                 token, user.getId(), user.getName(), user.getEmail(),

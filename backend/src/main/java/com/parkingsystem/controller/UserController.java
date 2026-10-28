@@ -34,12 +34,14 @@ public class UserController {
         return userService.getById(principal.getUser(), id);
     }
 
+    @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public UserResponse update(@AuthenticationPrincipal CustomUserDetails principal,
                                 @PathVariable UUID id, @RequestBody UserUpdateRequest request) {
         return userService.update(principal.getUser(), id, request);
     }
 
+    @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public void delete(@AuthenticationPrincipal CustomUserDetails principal, @PathVariable UUID id) {
         userService.delete(principal.getUser(), id);

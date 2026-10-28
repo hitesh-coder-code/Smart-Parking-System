@@ -37,6 +37,7 @@ public class SlotController {
         return ResponseEntity.status(HttpStatus.CREATED).body(slotService.create(principal.getUser(), request));
     }
 
+    @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public void delete(@AuthenticationPrincipal CustomUserDetails principal, @PathVariable UUID id) {
         slotService.delete(principal.getUser(), id);

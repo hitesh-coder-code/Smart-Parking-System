@@ -47,6 +47,28 @@ public class JwtUtil {
         }
     }
 
+    public String generatePreAuthToken(String email) {
+        Date now = new Date();
+        Date expiry = new Date(now.getTime() + 5 * 60 * 1000); // 5 minutes for MFA entry
+        return Jwts.builder()
+                .subject(email)
+                .claim("pre_auth", true)
+                .issuedAt(now)
+                .expiration(expiry)
+                .signWith(key, SignatureAlgorithm.HS256)
+                .compact();
+    }
+
+    public boolean isPreAuthToken(String token) {
+        try {
+            Claims claims = parseClaims(token);
+            Boolean preAuth = claims.get("pre_auth", Boolean.class);
+            return Boolean.TRUE.equals(preAuth) && claims.getExpiration().after(new Date());
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     private Claims parseClaims(String token) {
         return Jwts.parser()
                 .verifyWith(key)

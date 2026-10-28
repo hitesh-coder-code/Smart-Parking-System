@@ -10,4 +10,6 @@ public class LoginRequest {
 
     @NotNull
     private String password;
+
+    private String totpCode;
 }

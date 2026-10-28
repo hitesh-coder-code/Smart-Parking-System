@@ -34,4 +34,29 @@ public class AuthController {
     public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest request) {
         return ResponseEntity.ok(authService.login(request));
     }
+
+    @PostMapping("/mfa/verify-login")
+    public ResponseEntity<AuthResponse> verifyLoginMfa(@Valid @RequestBody MfaLoginVerifyRequest request) {
+        return ResponseEntity.ok(authService.verifyLoginMfa(request));
+    }
+
+    @PostMapping("/mfa/setup")
+    public ResponseEntity<MfaSetupResponse> setupMfa(
+            @org.springframework.security.core.annotation.AuthenticationPrincipal com.parkingsystem.security.CustomUserDetails principal) {
+        return ResponseEntity.ok(authService.setupMfa(principal.getUser()));
+    }
+
+    @PostMapping("/mfa/enable")
+    public ResponseEntity<MessageResponse> enableMfa(
+            @org.springframework.security.core.annotation.AuthenticationPrincipal com.parkingsystem.security.CustomUserDetails principal,
+            @Valid @RequestBody MfaVerifyRequest request) {
+        return ResponseEntity.ok(authService.enableMfa(principal.getUser(), request));
+    }
+
+    @PostMapping("/mfa/disable")
+    public ResponseEntity<MessageResponse> disableMfa(
+            @org.springframework.security.core.annotation.AuthenticationPrincipal com.parkingsystem.security.CustomUserDetails principal,
+            @Valid @RequestBody MfaVerifyRequest request) {
+        return ResponseEntity.ok(authService.disableMfa(principal.getUser(), request));
+    }
 }
